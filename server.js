@@ -1,13 +1,13 @@
-var http = require('http');
-var app = require('express')();
-var bodyParser = require('body-parser');
-var logger = require('morgan');
-var mongodb = require('./config/mongo.db');
-var area_routes_v1 = require('./api/area.routes.v1');
-var auth_routes_v1 = require('./api/authentication.routes.v1');
-var client_routes_v1 = require('./api/client.routes.v1');
-var config = require('./config/env/env');
-var expressJWT = require('express-jwt');
+const http = require('http');
+const app = require('express')();
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const mongodb = require('./config/mongo.db');
+const area_routes_v1 = require('./api/area.routes.v1');
+const auth_routes_v1 = require('./api/authentication.routes.v1');
+const client_routes_v1 = require('./api/client.routes.v1');
+const config = require('./config/env/env');
+const expressJWT = require('express-jwt');
 
 app.use(bodyParser.urlencoded({
     'extended': 'true'
@@ -45,7 +45,7 @@ app.use('/api/v1', auth_routes_v1);
 app.use('/api/v1', client_routes_v1);
 
 app.use(function (err, req, res, next) {
-    var error = {
+    const error = {
         message: err.message,
         code: err.code,
         name: err.name,
