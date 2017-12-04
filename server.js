@@ -19,7 +19,8 @@ app.use(bodyParser.json({
 }));
 
 app.use(expressJWT({
-    secret: config.env.secretKey
+    secret: config.env.secretKey,
+    credentialsRequired: false
 }).unless({
     path: [
         {url: '/api/v1/login', methods: ['POST']},
