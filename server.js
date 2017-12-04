@@ -18,14 +18,14 @@ app.use(bodyParser.json({
     type: 'application/vnd.api+json'
 }));
 
-// app.use(expressJWT({
-//     secret: config.env.secretKey
-// }).unless({
-//     path: [
-//         {url: '/api/v1/login', methods: ['POST']},
-//         {url: '/api/v1/register', methods: ['POST']}
-//     ]
-// }));
+app.use(expressJWT({
+    secret: config.env.secretKey
+}).unless({
+    path: [
+        {url: '/api/v1/login', methods: ['POST']},
+        {url: '/api/v1/register', methods: ['POST']}
+    ]
+}));
 
 app.set('port', (config.env.webPort));
 app.set('env', (config.env.env));
@@ -45,6 +45,7 @@ app.use('/api/v1', auth_routes_v1);
 app.use('/api/v1', client_routes_v1);
 
 app.use(function (err, req, res, next) {
+    console.dir(err);
     const error = {
         message: err.message,
         code: err.code,
