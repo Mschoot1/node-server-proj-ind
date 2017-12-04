@@ -17,11 +17,11 @@
     "mongoose",
     "server"
   ],
-  "author": "Avans Informatica Breda",
+  "author": "Marnix van der Schoot",
   "license": "ISC",
-  "homepage": "https://github.com/avansbreda#readme",
+  "homepage": "https://github.com",
   "bugs": {
-    "url": "https://github.com/avansbreda/issues"
+    "url": "https://github.com"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
