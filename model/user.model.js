@@ -9,12 +9,13 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true
-    },
-    area: {
-        type: Schema.Types.ObjectId,
-        ref: 'Area',
-        required: true
     }
+    // ,
+    // area: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Area',
+    //     required: true
+    // }
 }, {
     timestamps: true
 });
