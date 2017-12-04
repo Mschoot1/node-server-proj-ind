@@ -18,14 +18,14 @@ app.use(bodyParser.json({
     type: 'application/vnd.api+json'
 }));
 
-app.use(expressJWT({
-    secret: config.env.secretKey
-}).unless({
-    path: [
-        {url: '/api/v1/login', methods: ['POST']},
-        {url: '/api/v1/register', methods: ['POST']}
-    ]
-}));
+// app.use(expressJWT({
+//     secret: config.env.secretKey
+// }).unless({
+//     path: [
+//         {url: '/api/v1/login', methods: ['POST']},
+//         {url: '/api/v1/register', methods: ['POST']}
+//     ]
+// }));
 
 app.set('port', (config.env.webPort));
 app.set('env', (config.env.env));
