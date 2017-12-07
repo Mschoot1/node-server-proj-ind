@@ -13,7 +13,10 @@ router.post('/login', function (req, res) {
     User.findOne({"username": username})
         .then(user => {
             if (user && bCrypt.compareSync(password, user.password)) {
-                res.status(200).json({"token": auth.encodeToken(user._id)});
+                res.status(200).json({
+                    "token": auth.encodeToken(user._id),
+                    "username": user.username
+                });
             } else {
                 res.status(401).json({"error": "Invalid credentials, bye"})
             }

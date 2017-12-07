@@ -3,9 +3,10 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const mongodb = require('./config/mongo.db');
-const area_routes_v1 = require('./api/area.routes.v1');
 const auth_routes_v1 = require('./api/authentication.routes.v1');
 const client_routes_v1 = require('./api/client.routes.v1');
+const shift_routes_v1 = require('./api/shift.routes.v1');
+const activity_routes_v1 = require('./api/activity.routes.v1');
 const config = require('./config/env/env');
 const expressJWT = require('express-jwt');
 
@@ -22,8 +23,8 @@ app.use(expressJWT({
     secret: config.env.secretKey
 }).unless({
     path: [
-        {url: '/api/v1/login', methods: ['POST']},
-        {url: '/api/v1/register', methods: ['POST']}
+        {url: '/api/v1/login', methods: ['POST', 'OPTIONS']},
+        {url: '/api/v1/register', methods: ['POST', 'OPTIONS']}
     ]
 }));
 
@@ -35,14 +36,15 @@ app.use(logger('dev'));
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', config.env.allowOrigin);
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, authorization');
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
 
-app.use('/api/v1', area_routes_v1);
 app.use('/api/v1', auth_routes_v1);
 app.use('/api/v1', client_routes_v1);
+app.use('/api/v1', shift_routes_v1);
+app.use('/api/v1', activity_routes_v1);
 
 app.use(function (err, req, res, next) {
     console.dir(err);
