@@ -1,10 +1,7 @@
 const express = require('express');
 const routes = express.Router();
-const neo4j = require('neo4j-driver').v1;
 const Movie = require('../model/movie.model');
-
-const driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('root', 'neo4j'));
-const session = driver.session();
+const session = require('../config/neo4j.db');
 
 routes.get('/movies', function (req, res) {
     const searchQuery = req.query.searchQuery;

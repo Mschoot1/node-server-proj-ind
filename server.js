@@ -3,7 +3,6 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const mongodb = require('./config/mongo.db');
-const neo4j = require('neo4j-driver').v1;
 const auth_routes_v1 = require('./api/authentication.routes.v1');
 const movie_routes_v1 = require('./api/movie.routes.v1');
 const cinema_routes_v1 = require('./api/cinema.routes.v1');
@@ -21,9 +20,6 @@ app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.json({
     type: 'application/vnd.api+json'
 }));
-
-var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('root', 'neo4j'));
-var session = driver.session();
 
 app.use(expressJWT({
     secret: config.env.secretKey
