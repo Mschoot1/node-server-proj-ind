@@ -2,6 +2,7 @@ const express = require('express');
 const routes = express.Router();
 const Movie = require('../model/movie.model');
 const session = require('../config/neo4j.db');
+const util = require('util');
 
 routes.get('/movies', function (req, res) {
     const searchQuery = req.query.searchQuery;
@@ -23,16 +24,25 @@ routes.get('/movies/:title', function (req, res) {
 });
 
 routes.post('/movies', function (req, res) {
-    Movie.create(req.body)
+    session.run(
+        'CREATE (movie:Movie {title:\'' + body.title + '\', released:' + body.released + ', tagline:\'' + body.tagline + '\'}) ' +
+        'RETURN movie')
         .then(movie => res.status(200).send(movie))
-        .catch(error => res.status(400).json(error))
-    ;
+        .catch(error => res.status(400).json(error));
+    // Movie.create(req.body)
+    //     .then(movie => res.status(200).send(movie))
+    //     .catch(error => res.status(400).json(error));
 });
 
-routes.put('/movies/:id', function (req, res, next) {
-    Movie.findByIdAndUpdate({_id: req.params.id}, req.body, {new: true})
-        .then(movie => res.status(200).send(movie))
+routes.put('/movies/:title', function (req, res, next) {
+    const body = req.body;
+    session.run(
+        'MATCH (movie { title: "' + req.params.title + '" }) SET movie = ' + util.inspect(req.body) + ' RETURN movie')
+        .then(result => res.status(200).json(result.records.map(r => r._fields[0].properties)))
         .catch(next);
+    // Movie.findByIdAndUpdate({_id: req.params.id}, req.body, {new: true})
+    //     .then(movie => res.status(200).send(movie))
+    //     .catch(next);
 });
 
 routes.delete('/movies/:id', function (req, res, next) {

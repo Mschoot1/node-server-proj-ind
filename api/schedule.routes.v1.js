@@ -19,7 +19,8 @@ routes.get('/schedules/:id', function (req, res) {
     Schedule.findOne({"_id": req.params.id}).populate([{path: 'hall', populate: {path: 'cinema'}}])
         .then(schedule => {
             s = schedule;
-            return session.run('MATCH(movie:Movie) WHERE movie.title = "' + schedule.movie.title + '" RETURN movie');
+            console.log(s.movie.title);
+            return session.run('MATCH(movie:Movie) WHERE movie.title = "' + s.movie.title + '" RETURN movie');
         })
         .then(result => {
             s.movie = result.records[0]._fields[0].properties;
