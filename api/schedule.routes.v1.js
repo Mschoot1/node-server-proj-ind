@@ -1,12 +1,10 @@
 const express = require('express');
 const routes = express.Router();
-const neo4j = require('neo4j-driver').v1;
 const User = require('../model/user.model');
 const Schedule = require('../model/schedule.model');
 const auth = require('../auth/authentication');
 
-const driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('root', 'neo4j'));
-const session = driver.session();
+const session = require('../config/neo4j.db');
 
 routes.get('/schedules', function (req, res) {
     Schedule.find().sort({dateTime: 1}).populate([{path: 'hall', populate: {path: 'cinema'}}])
