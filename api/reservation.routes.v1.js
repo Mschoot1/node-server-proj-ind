@@ -30,7 +30,9 @@ routes.get('/reservations/:id', function (req, res) {
 });
 
 routes.post('/reservations', function (req, res) {
-    Reservation.create(req.body)
+    let body = req.body;
+    body.user = auth.getIdFromHeaders(req);
+    Reservation.create(body)
         .then(reservation => {
             return Reservation.findOne({"_id": reservation._id}).populate([{
                 path: 'schedule',
